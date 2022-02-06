@@ -5,7 +5,33 @@ include_once 'GoogleCalendarApi.php';
      
 // Include database configuration file 
 require_once 'dbConfig.php'; 
- 
+
+if(isset($_GET['code'])){ 
+    echo "este es el codigo";
+    $GoogleCalendarApi = new GoogleCalendarApi(); 
+     // Get the access token 
+   //  $access_token_sess = $_SESSION['google_access_token']; 
+   if(!empty($access_token_sess)){ 
+    $access_token = $access_token_sess; 
+    }else{ 
+        $data = $GoogleCalendarApi->GetAccessToken(GOOGLE_CLIENT_ID, REDIRECT_URI, GOOGLE_CLIENT_SECRET, $_GET['code']); 
+        $access_token = $data['access_token']; 
+       $_SESSION['google_access_token'] = $access_token; 
+       $list=$GoogleCalendarApi->GetCalendarsList($access_token); 
+       
+       
+    } 
+
+    header("Location: result.php"); 
+    exit();     
+
+
+}
+
+
+
+
+/*
 $statusMsg = ''; 
 $status = 'danger'; 
 if(isset($_GET['code'])){ 
@@ -13,7 +39,13 @@ if(isset($_GET['code'])){
     $GoogleCalendarApi = new GoogleCalendarApi(); 
      //echo "este es el codigo";
     // Get event ID from session 
-    $event_id = $_SESSION['last_event_id']; 
+ //   $event_id = $_SESSION['last_event_id']; 
+ 
+
+
+
+
+
  
     if(!empty($event_id)){ 
          
@@ -94,5 +126,8 @@ if(isset($_GET['code'])){
      
     header("Location: index.php"); 
     exit(); 
-} 
+
+
+    
+} */
 ?>
