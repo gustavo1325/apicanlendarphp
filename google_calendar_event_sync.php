@@ -16,13 +16,14 @@ if(isset($_GET['code'])){
     }else{ 
         $data = $GoogleCalendarApi->GetAccessToken(GOOGLE_CLIENT_ID, REDIRECT_URI, GOOGLE_CLIENT_SECRET, $_GET['code']); 
         $access_token = $data['access_token']; 
-       $_SESSION['google_access_token'] = $access_token; 
+       //$_SESSION['google_access_token'] = $access_token; 
        $list=$GoogleCalendarApi->GetCalendarsList($access_token); 
        
+       $jo="hola mundo";
        
     } 
-
-    header("Location: result.php"); 
+   
+    header("Location: result.php?datos=$List[1]"); 
     exit();     
 
 
